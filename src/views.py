@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from src.config_log import setting_log
-from src.currency import get_exchange_rates, get_sp500
+from src.currency import get_currencies, get_sp500
 from src.operation import find_top_transactions, info_from_operation
 from src.time import greet_by_time_of_day
 from src.utils import unpack_excel
@@ -36,7 +36,7 @@ def major(date: str) -> str:
 
         logger.info("getting currency rates...")
         list_currency = info["user_currencies"]
-        currency = get_exchange_rates(list_currency)
+        currency = get_currencies(list_currency)
 
         logger.info("getting SP500 prices...")
         list_stocks = info["user_stocks"]

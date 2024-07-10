@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import Mock, patch
 import xml.etree.ElementTree as ET
-from src.currency import get_exchange_rates, get_sp500
+from src.currency import get_currencies, get_sp500
 
 
 @pytest.fixture
@@ -26,17 +26,17 @@ def xml_data() -> str:
 
 
 def test_get_currencies_rub() -> None:
-    assert get_exchange_rates(["RUB"]) == [{"currency": "RUB", "rate": "1"}]
+    assert get_currencies(["RUB"]) == [{"currency": "RUB", "rate": "1"}]
 
 
 def test_get_currencies(xml_data: str) -> None:
     with patch("builtins.open") as mock_open, \
-         patch("xml.etree.ElementTree.parse") as parse_mock:
+            patch("xml.etree.ElementTree.parse") as parse_mock:
         mock_tree = ET.ElementTree(ET.fromstring(xml_data))
         parse_mock.return_value = mock_tree
         mock_file = mock_open.return_value.__enter__.return_value
         mock_file.read.return_value = xml_data
-        value = get_exchange_rates(["USD", "EUR"])
+        value = get_currencies(["USD", "EUR"])
         assert value == [
             {"currency": "USD", "rate": "74.3250"},
             {"currency": "EUR", "rate": "90.1234"},

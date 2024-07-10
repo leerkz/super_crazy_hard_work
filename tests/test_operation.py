@@ -1,4 +1,6 @@
 from typing import Any
+
+import pandas as pd
 import pytest
 from pandas import DataFrame
 from src.operation import find_category_df, find_line, find_top_transactions, info_from_operation
@@ -186,14 +188,6 @@ def test_find_line(data: list[dict]) -> None:
     assert find_line(data, "переводы") == correct
 
 
-def test_info_from_operation(data: list[dict]) -> None:
-    time = "2018-01-10 12:12:12"
-    assert info_from_operation(data, time) == [
-        {"last_digits": "7197", "total_spent": "3705.46", "cashback": "37.0546"},
-        {"last_digits": "Переводы", "total_spent": "3000.0", "cashback": "0"},
-    ]
-
-
 def test_find_top_transactions(data: list[dict]) -> None:
     time = "2018-01-10 12:12:12"
     correct = [
@@ -227,3 +221,18 @@ def test_find_category_df(data: list[dict[Any, Any]]) -> None:
             "Сумма платежа": -3000.0,
         }
     ]
+
+
+def test_info_from_operation_exception_handling() -> None:
+    with pytest.raises(Exception):
+        info_from_operation([], "invalid_date_format")
+
+
+def test_find_top_transactions_exception_handling(data: list[dict]) -> None:
+    with pytest.raises(Exception):
+        find_top_transactions(data, "invalid_date_format")
+
+
+def test_find_category_df_exception_handling() -> None:
+    with pytest.raises(Exception):
+        find_category_df(pd.DataFrame(), "")

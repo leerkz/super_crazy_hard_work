@@ -61,11 +61,11 @@ CODE_CURRENCY = {
 }
 
 
-def get_exchange_rates(currency: list) -> list[dict]:
+def get_currencies(currency: list) -> list | bool | Any:
     """
     находит в xml файле цену этой валюты в рублях
     :param currency: валюта
-    :return: список словарей с валютой и курсом
+    :return: цена валюты
     """
     list_currency = []
     if "RUB" in currency:
@@ -83,7 +83,7 @@ def get_exchange_rates(currency: list) -> list[dict]:
     three = ET.parse(os.path.join(Path(__file__).resolve().parents[1], "data", "cbr.xml"))
     # получаем корневой элемент
     root = three.getroot()
-    # проходимся по корню
+    # проходимся по корню`
     for child in root:
         if child.attrib["ID"] in currency:
             for item in child:

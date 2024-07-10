@@ -83,12 +83,6 @@ def filter_operations_by_date_range(operations: list[dict], date_list: list) -> 
         raise error
 
 
-
-
-
-
-
-
 def filter_dataframe_by_date_range(df: pd.DataFrame, date_list: list) -> pd.DataFrame:
     """
     Фильтрует строки датафрейма по заданному диапазону дат.
