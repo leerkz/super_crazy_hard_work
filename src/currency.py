@@ -72,18 +72,12 @@ def get_currencies(currency: list) -> list | bool | Any:
         logger.info("currency is RUB")
         list_currency.append({"currency": "RUB", "rate": "1"})
     currency = list(map(lambda x: CODE_CURRENCY.get(x, ""), currency))
-    # получает актуальную дату
     time_now = datetime.strftime(datetime.now(), "%d/%m/%Y")
-    # использую дату как ссылку для xml данных центра банка
     url = f"https://cbr.ru/scripts/XML_daily.asp?date_req={time_now}"
-    # функция которая записывает xml с айта
     write_xml_from_web(url, "cbr")
-    # парсим данные с нашего файла
     logger.info("parse data...")
     three = ET.parse(os.path.join(Path(__file__).resolve().parents[1], "data", "cbr.xml"))
-    # получаем корневой элемент
     root = three.getroot()
-    # проходимся по корню`
     for child in root:
         if child.attrib["ID"] in currency:
             for item in child:
