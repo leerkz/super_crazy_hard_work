@@ -1,6 +1,8 @@
-import pytest
-from unittest.mock import Mock, patch
 import xml.etree.ElementTree as ET
+from unittest.mock import Mock, patch
+
+import pytest
+
 from src.currency import get_currencies, get_sp500
 
 
@@ -30,8 +32,7 @@ def test_get_currencies_rub() -> None:
 
 
 def test_get_currencies(xml_data: str) -> None:
-    with patch("builtins.open") as mock_open, \
-            patch("xml.etree.ElementTree.parse") as parse_mock:
+    with patch("builtins.open") as mock_open, patch("xml.etree.ElementTree.parse") as parse_mock:
         mock_tree = ET.ElementTree(ET.fromstring(xml_data))
         parse_mock.return_value = mock_tree
         mock_file = mock_open.return_value.__enter__.return_value

@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import Optional
 
@@ -10,7 +11,7 @@ from src.time import filter_dataframe_by_date_range, generate_date_range
 logger = setting_log("reports")
 
 
-def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
+def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> str:
     """
     возвращает траты по заданной категории за последние три месяца от переданной даты
     :param transactions: датафрейм операций
@@ -32,10 +33,10 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
 
         logger.info("filtering by time range...")
         transactions = filter_dataframe_by_date_range(transactions, list_time)
-
+        dict_transactions = transactions.to_dict("records")
         logger.info("query complete")
 
-        return transactions
+        return json.dumps(dict_transactions, ensure_ascii=False)
 
     except Exception as error:
         logger.error(f"error: {error}")

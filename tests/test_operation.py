@@ -3,6 +3,7 @@ from typing import Any
 import pandas as pd
 import pytest
 from pandas import DataFrame
+
 from src.operation import find_category_df, find_line, find_top_transactions, info_from_operation
 
 

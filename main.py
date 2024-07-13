@@ -15,7 +15,7 @@ def main() -> None:
     date = input()
 
     # Вызов функции major и вывод результата
-    result_major = major(date)
+    result_major = major(date, pd.read_excel(os.path.join("data", "operations.xls"), na_filter=False))
     print(json.loads(result_major))
 
     print(

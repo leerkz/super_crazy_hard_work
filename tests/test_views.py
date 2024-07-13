@@ -1,4 +1,3 @@
-import json
 from unittest.mock import patch
 
 import pytest
@@ -164,3 +163,25 @@ def data() -> list[dict]:
             "Сумма операции с округлением": 3000.0,
         },
     ]
+
+
+def test_major(data: list[dict]) -> None:
+    with patch("src.views.get_sp500") as mock_sp500:
+        with patch("src.views.get_currencies") as mock_currencies:
+            mock_currencies.return_value = [{"currency": "USD", "rate": 73.21}]
+            mock_sp500.return_value = [{"price": "214.1000", "stock": "AAPL"}]
+            assert major("2018-01-10 8:8:8", DataFrame(data)) == (
+                '{"greeting": "Доброе утро", "cards": [{"last_digits": "7197", "total_spent": '
+                '"3705.460000000000064801497501", "cashback": '
+                '"37.05460000000000064801497501"}, {"last_digits": "Переводы", "total_spent": '
+                '"3000", "cashback": "30"}], "top_transactions": [{"date": "01.01.2018", '
+                '"amount": 3000.0, "category": "Переводы", "description": "Линзомат ТЦ '
+                'Юность"}, {"date": "06.01.2018", "amount": 1065.9, "category": '
+                '"Супермаркеты", "description": "Пятёрочка"}, {"date": "05.01.2018", '
+                '"amount": 1025.0, "category": "Топливо", "description": "Pskov AZS 12 K2"}, '
+                '{"date": "10.01.2018", "amount": 1004.9, "category": "Различные товары", '
+                '"description": "Torgovyy Dom Mayak"}, {"date": "04.01.2018", "amount": '
+                '316.0, "category": "Красота", "description": "OOO Balid"}], '
+                '"currency_rates": [{"currency": "USD", "rate": 73.21}], "stock_prices": '
+                '[{"price": "214.1000", "stock": "AAPL"}]}'
+            )

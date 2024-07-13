@@ -1,10 +1,7 @@
-from datetime import time
 from decimal import Decimal
 from typing import Dict, List
 
 import pandas as pd
-import pytest
-from pandas import DataFrame
 
 from src.config_log import setting_log
 from src.time import filter_operations_by_date_range, generate_date_range
@@ -12,7 +9,7 @@ from src.time import filter_operations_by_date_range, generate_date_range
 logger = setting_log("operation")
 
 
-def info_from_operation(operation: List[Dict[str, str]], date: str) -> List[Dict[str, str]]:
+def info_from_operation(operation: list, date: str) -> list:
     """
     находит общую сумму всех операция по каждой карте
     :param operation: данные операций
@@ -135,4 +132,3 @@ def find_category_df(df: pd.DataFrame, category: str) -> pd.DataFrame:
     except Exception as error:
         logger.error(f"error: {error}")
         raise error
-

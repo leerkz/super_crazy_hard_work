@@ -2,19 +2,21 @@ import json
 import os
 from pathlib import Path
 
+import pandas as pd
+
 from src.config_log import setting_log
 from src.currency import get_currencies, get_sp500
 from src.operation import find_top_transactions, info_from_operation
 from src.time import greet_by_time_of_day
-from src.utils import unpack_excel
 
 logger = setting_log("views")
 
 
-def major(date: str) -> str:
+def major(date: str, operation: pd.DataFrame) -> str:
     """
     возвращает Json-ответ с информацией на главной
     :param date: дата
+    :param operation: dataframe с операциями
     :return: возвращает json-ответ
     """
     try:
@@ -26,7 +28,7 @@ def major(date: str) -> str:
         greeting = greet_by_time_of_day(date)
 
         logger.info("unpacking operations...")
-        data = unpack_excel(os.path.join(Path(__file__).resolve().parents[1], "data", "operations.xls"))
+        data = operation.to_dict("records")
 
         logger.info("loading operations info...")
         list_operation = info_from_operation(data, date)

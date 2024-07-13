@@ -1,7 +1,8 @@
 import pytest
 from pandas import DataFrame
 
-from src.time import filter_operations_by_date_range, filter_dataframe_by_date_range, greet_by_time_of_day, generate_date_range
+from src.time import (filter_dataframe_by_date_range, filter_operations_by_date_range, generate_date_range,
+                      greet_by_time_of_day)
 
 
 @pytest.mark.parametrize(
@@ -270,4 +271,3 @@ def test_find_range_time_df() -> None:
         ]
     )
     assert filter_dataframe_by_date_range(data, generate_date_range("2018-04-10 8:8:8")).to_dict("records") == []
-
